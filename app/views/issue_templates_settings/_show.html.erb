@@ -1,8 +1,8 @@
 <div id="issue_templates_settings">
   <%= render partial: "common/nodata", locals: { trackers: @project.trackers } %>
 
-  <h2><%= l(:link_to_index_edit_template) %></h2>
-  <p>
+  <h3><%= l(:link_to_index_edit_template) %></h3>
+  <div class="box">
     <%= link_to(l(:label_list_templates),
                 { controller: 'issue_templates',
                   action: 'index',
@@ -10,10 +10,8 @@
     <%= link_to_if_authorized(l(:label_new_templates),
                               { controller: 'issue_templates', action: 'new', project_id: @project },
                               class: 'icon icon-add') %>
-  </p>
-  <p></p>
-  <div class="template_box">
-    <h2>Optional settings</h2>
+  </div>
+  <h3>Optional settings</h3>
     <p><%= l(:about_help_message) %></p>
     <%= labelled_form_for :settings, @issue_templates_setting,
                           url: { controller: 'issue_templates_settings',
