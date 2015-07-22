@@ -1,10 +1,10 @@
-<h2 class="template"><%=h "#{l(:issue_template)}" %></h2>
-<%= render partial: "common/nodata", locals: { trackers: @project.trackers } %>
 <div class="contextual issue_templates">
   <%= link_to_if_authorized(l(:label_new_templates),
                             { controller: 'issue_templates', action: 'new', project_id: @project },
                               class: 'icon icon-add') %>
 </div>
+<h2><%=h "#{l(:issue_templates)}" %></h2>
+<%= render partial: "common/nodata", locals: { trackers: @project.trackers } %>
 <div style="clear:both;"></div>
 
 <% if @notice -%>
@@ -19,7 +19,6 @@
 <% end %>
 
 <% @template_map.each_key do |tracker| %>
-    <div class="template_box">
       <h3 class="template_tracker"><%= tracker.name %></h3>
       <%= non_project_tracker_msg(project_tracker?(tracker, @project)) %>
 
@@ -82,7 +81,6 @@
         <% end %>
         </tbody>
       </table>
-    </div>
 
   <%= javascript_tag do %>
     $(function() { $("table.table-sortable tbody").positionedItems(); });
@@ -91,8 +89,9 @@
 
 
 <% unless @inherit_templates.blank? %>
-<h2 class="template"><%=h "#{l(:label_inherited_templates)}" %></h2>
-  <div class="template_box">
+
+<p>&nbsp;</p>
+<h2><%=h "#{l(:label_inherited_templates)}" %></h2>
 
         <table class="list issues">
           <thead>
@@ -144,12 +143,11 @@
           <% end %>
           </tbody>
         </table>
-    </div>
  <% end %>
 
 <% unless  @global_issue_templates.blank? %>
-    <h2 class="template"><%=h "#{l(:global_issue_templates)}" %></h2>
-    <div class="template_box">
+    <p>&nbsp;</p>
+    <h2><%= l :global_issue_templates %></h2>
 
       <% if apply_all_projects %>
           <p>
@@ -161,7 +159,7 @@
           </p>
       <% end %>
 
-      <%= l(:only_admin_can_associate_global_template) %>
+    <p><%= l :only_admin_can_associate_global_template %></p>
       <table class="list issues">
         <thead>
         <tr>
@@ -213,7 +211,6 @@
         </tbody>
       </table>
 
-    </div>
 <% end %>
 
 <%= link_to l(:orphaned_templates, default: 'Orphaned Templates'), project_orphaned_templates_path, remote: true,

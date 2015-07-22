@@ -1,12 +1,12 @@
-<h2><%=h "#{l(:global_issue_templates)}" %></h2>
-<%= render partial: "common/nodata", locals: { trackers: trackers } %>
-<div class="contextual issue_templates">
+<div class="contextual">
   <%= link_to(l(:label_new_templates),
               { controller: 'global_issue_templates', action: 'new' }, class: 'icon icon-add') %>
   <%= link_to(l(:label_settings),
               { controller: 'settings', action: 'plugin', id: 'redmine_issue_templates' },
               class: 'issue_template icon plugins') %>
 </div>
+<h2><%=h "#{l(:global_issue_templates)}" %></h2>
+<%= render partial: "common/nodata", locals: { trackers: trackers } %>
 <div style="clear:both;"></div>
 
 <% if template_map.blank? %>
