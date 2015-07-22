@@ -1,26 +1,26 @@
-<h2 class="template"><%=h "#{l(:global_issue_templates)}" %></h2>
+
+<div class="contextual">
+  <%= link_to(l(:label_new_templates), new_global_issue_template_path, :class => 'icon icon-add') %>
+</div>
+<h2><%=h "#{l(:global_issue_templates)}" %></h2>
+
 <% if @trackers.blank? %>
     <div class="nodata">
       <%= simple_format(l(:text_no_tracker_enabled_for_global)) %>
     </div>
 <% end %>
-<div class="contextual">
-  <%= link_to(l(:label_new_templates),
-              {:controller => 'global_issue_templates', :action => 'new'},
-              :class => 'icon icon-add') %>
-</div>
-<div style="clear:both;"></div>
 
 <% if @template_map.blank? %>
     <div class="template_box">
       <%= l(:no_issue_templates_for_this_redmine) %>
     </div>
 <% end %>
-  <% @template_map.each_key do |tracker| %>
-    <div class="template_box">
-        <h3 class="template_tracker"><%= tracker.name %></h3>
 
-  <table class="list issues">
+<% @template_map.each_key do |tracker| %>
+  <div class="template_box">
+    <h3 class="template_tracker"><%= tracker.name %></h3>
+
+    <table class="list issues">
     <thead>
     <tr>
       <th>#</th>
@@ -29,7 +29,7 @@
       <th><%= l(:field_author) %></th>
       <th><%= l(:field_updated_on) %></th>
       <th><%= l(:label_enabled) %></th>
-          <th><%=l(:button_sort)%></th>
+      <th><%=l(:button_sort)%></th>
     </tr>
     </thead>
     <tbody>
@@ -48,24 +48,24 @@
           <td><%= format_time(issue_template.updated_on)%> </td>
           <td class="center"><%= checked_image issue_template.enabled? %></td>
 
-              <td>
-                <%= issue_template.first? ? '':
-                            link_to(image_tag('2uparrow.png', :alt => l(:label_sort_highest)),
-                                    {:action => :move, :id => issue_template, :to => :to_top},
-                                    {:title => l(:label_sort_highest)}) %>
-                <%= issue_template.first? ? '':
-                            link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),
-                                    {:action => :move, :id => issue_template, :to => :higher},
-                                    {:title => l(:label_sort_higher)})  %>
-                <%= issue_template.last? ? '':
-                            link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),
-                                    {:action => :move, :id => issue_template, :to => :lower},
-                                    {:title => l(:label_sort_lower)}) %>
-                <%= issue_template.last? ? '':
-                            link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),
-                                    {:action => :move, :id => issue_template, :to => :to_bottom},
-                                    {:title => l(:label_sort_lowest)}) %>
-              </td>
+          <td>
+            <%= link_to image_tag('2uparrow.png', :alt => l(:label_sort_highest)),
+                        move_to_top_global_issue_template_path(issue_template),
+                        :title => l(:label_sort_highest),
+                        :method => :put unless issue_template.first? %>
+            <%= link_to image_tag('1uparrow.png', :alt => l(:label_sort_higher)),
+                        move_higher_global_issue_template_path(issue_template),
+                        :title => l(:label_sort_higher),
+                        :method => :put unless issue_template.first? %>
+            <%= link_to image_tag('1downarrow.png', :alt => l(:label_sort_lower)),
+                        move_lower_global_issue_template_path(issue_template),
+                        :title => l(:label_sort_lower),
+                        :method => :put unless issue_template.last? %>
+            <%= link_to image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),
+                        move_to_bottom_global_issue_template_path(issue_template),
+                        :title => l(:label_sort_lowest),
+                        :method => :put unless issue_template.last? %>
+          </td>
         </tr>
         <tr class="<%= current_cycle %>" style="display: none;" id="global_template_description-<%= issue_template.id %>">
           <td class="description" colspan="8">
