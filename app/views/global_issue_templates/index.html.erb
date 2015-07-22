@@ -1,20 +1,21 @@
-<h2 class="template"><%=h "#{l(:global_issue_templates)}" %></h2>
+<div class="contextual">
+  <%= link_to(l(:label_new_templates),
+              { controller: 'global_issue_templates', action: 'new' }, class: 'icon icon-add') %>
+</div>
+<h2><%= l :global_issue_templates %></h2>
+
 <% if trackers.blank? %>
     <div class="nodata">
       <%= simple_format(l(:text_no_tracker_enabled_for_global)) %>
     </div>
 <% end %>
-<div class="contextual">
-  <%= link_to(l(:label_new_templates),
-              { controller: 'global_issue_templates', action: 'new' }, class: 'icon icon-add') %>
-</div>
-<div style="clear:both;"></div>
 
 <% if template_map.blank? %>
     <div class="template_box">
       <%= l(:no_issue_templates_for_this_redmine) %>
     </div>
 <% end %>
+
 <% template_map.each_key do |tracker| %>
     <div class="template_box">
       <h3 class="template_tracker"><%= tracker.name %></h3>
