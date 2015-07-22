@@ -13,6 +13,10 @@ en:
   label_enabled_help_message: Checkbox to activate this template. If you would like to save this template as a draft, un-check this box.
   label_list_templates: "Template list"
   label_new_templates: "Add template"
+  modules:
+    issue_templates:
+      description: Eases the creation of new issues with templates.
+
   issue_template_name: "Template name"
   issue_description: "Issue body"
   issue_title: "Issue title"
@@ -38,7 +42,7 @@ en:
   label_should_replaced: "Replace subject and description"
   label_should_replaced_help_message: "If true, existing subject and description are cleared and replaced with template text.（Default is false, and appended text.)"
   global_issue_templates: "Global Issue Templates"
-  no_issue_templates_for_this_redmine: "No global issue templates are defined for this Redmine site."
+  no_issue_templates_for_this_redmine: "No global issue templates are defined."
   only_admin_can_associate_global_template: "Only Redmine administrator can associate global templates with this project."
   text_no_tracker_enabled_for_global: "Trackers are not defined yet.\nPlease set them first because templates are assigned to trackers."
   display_and_filter_issue_templates_in_dialog: "Preview Template Contents"
@@ -48,7 +52,7 @@ en:
   note_apply_global_template_to_all_projects_setting_enabled: "This global issue template is applied to all the project by plugin setting."
   project_list_associated_this_template: "Project List:  (applied: %{applied} of %{all})"
   note_project_local_template_override_global_template: "If project local template exists, override global templates and any global templates are not shown on create issue screen."
-  help_project_local_template_override_global_template: "If this option is activated, every global ticket templates will be applied to all projects. If a project-specific template per tracker is set, it takes override and the global template is hidden on the new ticket creation screen."
+  help_project_local_template_override_global_template: "If this option is activated, every global issue templates will be applied to all projects. If a project-specific template per tracker is set, it takes override and the global template is hidden on the new issue creation screen."
   warning_project_local_template_override_global_template: "Please be careful when registering global issue template, that contain confidential content you want to pay attention to. In case this option is activated, all the global templates will be applied to all projects."
   revert_before_applying_template: "Revert"
   template_remove_confirm: "Are you sure to remove this template？ %{count} subprojects use this template."
