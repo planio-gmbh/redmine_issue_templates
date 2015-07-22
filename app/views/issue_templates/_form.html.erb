@@ -1,8 +1,3 @@
-<%- 
-baseurl = Redmine::Utils.relative_url_root
-helpImg = baseurl + "/images/help.png"
-
-%>
 <%= error_messages_for 'issue_template' %>
 <div class="box tabular" style="background-color: white;">
 <p><%= f.text_field :title, :required => true, :size => 80, :label => l(:issue_template_name) %> </p>

@@ -9,23 +9,24 @@
       </div>
   <% end %>
 
-  <h2><%= l(:link_to_index_edit_template) %></h2>
-  <p><%= link_to(l(:label_list_templates),
-              {:controller => :issue_templates,
-               :action => :index,
-               :project_id => @project}, :class => 'template') %>   |
-  <%= link_to_if_authorized(l(:label_new_templates),
-                            {:controller => 'issue_templates', :action => 'new', :project_id => @project},
-                            :class => 'icon icon-add') %></p>
-  <p></p>
-<div class="template_box">
-<h2>Optional settings</h2>
+  <h3><%= l :link_to_index_edit_template %></h3>
+
+  <div class="box">
+    <p>
+      <%= link_to(l(:label_list_templates),
+                  project_issue_templates_path(@project),
+                  :class => 'template') %>
+      <% if authorize_for :issue_templates, :new %>
+        | <%= link_to l(:label_new_templates),
+                    new_project_issue_template_path(@project),
+                    :class => 'icon icon-add' %>
+      <% end %>
+    </p>
+  </div>
+
+<h3>Optional settings</h3>
   <p><%= l(:about_help_message) %></p>
-<%= labelled_form_for :settings, @issue_templates_setting,
-                             :url => {:controller => 'issue_templates_settings',
-                             :action => 'edit', :project_id => @project, :tab => 'issue_templates',
-                             :setting_id => @issue_templates_setting.id}, 
-                             :html => {:id => 'issue_templates_settings' } do |f| %>    
+  <%= labelled_form_for :settings, @issue_templates_setting, :url => project_issue_templates_settings_path(@project, :tab => :issue_templates), :html => { :id => 'issue_templates_settings' } do |f| %>
     <%= error_messages_for 'issue_templates_setting' %>
     <div class="box tabular">
 
@@ -43,17 +44,16 @@
         <span id="should_replaced_help_content" class="help_content" style="display: none;"><%= l(:label_should_replaced_help_message) %></span>
       </p>
 
-    <p><%= f.check_box :enabled, :label => l(:label_show_help_message) %></p>     
-    <p><label><%=l(:label_help_message)%></label>
+    <p><%= f.check_box :enabled, :label => l(:label_show_help_message) %></p>
+    <p>
    <%=content_tag(:label, l(:label_help_message)) %>
-   <%=text_area_tag 'settings[help_message]',  @issue_templates_setting['help_message'],  :size =>"50x5", 
+   <%=text_area_tag 'settings[help_message]',  @issue_templates_setting['help_message'],  :size =>"50x5",
         :class => 'wiki-edit'  %><br/>
- <%= wikitoolbar_for "settings_help_message" %>
- <%= preview_link url_for(:controller => 'issue_templates_settings', :action => 'preview',
-                          :project_id => @project),
+   <%= wikitoolbar_for "settings_help_message" %>
+   <%= preview_link preview_project_issue_templates_settings_path(@project),
                   'settings_help_message', target='template_help_preview' %>
-<div id="template_help_preview" class="wiki"></div>       
-        
+   <div id="template_help_preview" class="wiki"></div>
+
     </div>
 
     <%= submit_tag l(:button_save) %>

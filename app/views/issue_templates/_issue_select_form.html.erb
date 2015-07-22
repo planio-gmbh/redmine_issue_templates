@@ -1,12 +1,13 @@
-<% return '' unless @project.module_enabled? :issue_templates %>
-<% return '' unless authorize_for('issue_templates', 'show') %>
+<% if @project.module_enabled?(:issue_templates) and authorize_for('issue_templates', 'show') %>
+
  <%
    # TODO: This code should be moved from template.
    @setting = IssueTemplateSetting.find_or_create(@project.id)
-   issue = @issue.errors.messages
+   if @issue.errors.messages[:subject].blank?
  %>
+
 <div id="template_area" style="margin-top: 4pt;">
-<p style="padding-bottom: 0; margin-bottom: 0;"><label><%=h l(:issue_template)%></label>
+<p style="padding-bottom: 0; margin-bottom: 0;"><label for="issue_template"><%=h l(:issue_template)%></label>
   <select id="issue_template" include_blank="true" length="150" name="issue_template">
     <option value="">---</option>
   </select>
@@ -25,17 +26,14 @@
   <div id="template_help_hide"><a href="#" onClick="checkExpand('template_help_content');" title="<%= l(:close_help) %>">[x]</a></div>
 </div>
 </div>
-<% return '' if !issue[:subject].blank? %>
 <script type="text/javascript">
 //<![CDATA[
 token = '<%= form_authenticity_token %>';
-load_url = '<%= url_for(:controller => 'issue_templates', 
-      :action => 'load', :project_id => @project) %>';
-pulldown_url = '<%= url_for(:controller => 'issue_templates', 
-      :action => 'set_pulldown', :project_id => @project) %>';
+load_url = '<%= load_project_issue_templates_url(@project) %>';
+pulldown_url = '<%= set_pulldown_project_issue_templates_url(@project) %>';
 should_replaced = '<%= @setting.should_replaced %>';
-confirm_msg = '<%= escape_javascript(l(:confirm_replace_description_with_template)) %>'
-tracker =  '<%= @issue.tracker.id %>'
+confirm_msg = '<%= escape_javascript(l(:confirm_replace_description_with_template)) %>';
+tracker =  '<%= @issue.tracker.id %>';
 set_pulldown(tracker, pulldown_url, token);
 
 $('#template_area').insertBefore($('#issue_subject').parent());
@@ -46,3 +44,6 @@ $(document).ready(function() {
 });
 
 </script>
+
+<% end %>
+<% end %>

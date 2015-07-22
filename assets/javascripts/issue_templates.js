@@ -6,8 +6,9 @@ changeType = "";
 
 function checkExpand(ch) {
     var obj=document.all && document.all(ch) || document.getElementById && document.getElementById(ch);
-    if(obj && obj.style) obj.style.display=
-    "none" == obj.style.display ?"" : "none"
+    if(obj && obj.style){
+      obj.style.display = "none" == obj.style.display ? "" : "none";
+    }
 }
 
 function eraseSubjectAndDescription() {
@@ -38,7 +39,7 @@ function load_template(target_url, token, confirm_msg, should_replaced) {
         $.ajax({
             url:target_url,
             async:true,
-            type:'post',
+            type:'GET',
             data:$.param({issue_template:$("#issue_template").val(), authenticity_token:token, template_type:template_type})
         }).done(function (html) {
                 oldSubj = "";
@@ -73,7 +74,7 @@ function set_pulldown(tracker, target_url, token) {
     $.ajax({
         url: target_url,
         async: true,
-        type: 'post',
+        type: 'GET',
         data: $.param({issue_tracker_id: tracker, authenticity_token: token})
     }).done(function( html ) {
         $('#issue_template').html(html);

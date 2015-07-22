@@ -1,12 +1,14 @@
 class GlobalIssueTemplatesController < ApplicationController
   unloadable
-  layout 'base'
+  include RedmineIssueTemplates::TemplateOrdering
+
   include IssueTemplatesHelper
   helper :issues
   include IssuesHelper
   menu_item :issues
+
+  before_filter :require_admin, :find_user
   before_filter :find_object, :only => [ :show, :edit, :update, :destroy ]
-  before_filter :require_admin, :find_user, :only => [ :index, :new, :show ], :except => [ :preview ]
 
   #
   # Action for global template : Admin right is required.
@@ -77,16 +79,6 @@ class GlobalIssueTemplatesController < ApplicationController
     render :partial => 'common/preview'
   end
 
-  [:to_top, :higher, :lower, :to_bottom].each do |where|
-    define_method "move_#{where}" do
-      GlobalIssueTemplate.find(params[:id]).send "move_#{where}"
-      respond_to do |format|
-        format.html { redirect_to :action => 'index' }
-        format.xml  { head :ok }
-      end
-    end
-  end
-
   private
 
   # Reorder templates
@@ -97,8 +89,6 @@ class GlobalIssueTemplatesController < ApplicationController
   def find_object
     @trackers = Tracker.all
     @global_issue_template = GlobalIssueTemplate.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
 end

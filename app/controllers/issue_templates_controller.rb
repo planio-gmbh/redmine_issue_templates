@@ -1,23 +1,24 @@
 class IssueTemplatesController < ApplicationController
   unloadable
-  layout 'base'
+  include RedmineIssueTemplates::TemplateOrdering
+
   include IssueTemplatesHelper
   helper :issues
   include IssuesHelper
   menu_item :issues
-  before_filter :find_object, :only => [ :show, :edit, :destroy ]
-  before_filter :find_user, :find_project, :authorize, 
-    :except => [ :preview, :move_order_higher, :move_order_lower, 
-                 :move_order_to_top, :move_order_to_bottom, :move ]
-  before_filter :find_tracker, :only => [ :set_pulldown ]
+
+  before_filter :find_project_by_project_id, :authorize, :find_user
+  before_filter :find_object, :only => [:show, :edit, :update, :destroy]
 
   def index
     tracker_ids = IssueTemplate.where('project_id = ?', @project.id).pluck(:tracker_id)
 
     @template_map = Hash::new
     tracker_ids.each do |tracker_id|
-      templates = IssueTemplate.where('project_id = ? AND tracker_id = ?',
-                                              @project.id, tracker_id).order('position')
+      templates = IssueTemplate.
+        where('project_id = ? AND tracker_id = ?',
+              @project.id, tracker_id).
+        order('position')
       if templates.any?
         @template_map[Tracker.find(tracker_id)] = templates
       end
@@ -50,51 +51,51 @@ class IssueTemplatesController < ApplicationController
   end
 
   def new
-    # create empty instance
     @issue_template ||= IssueTemplate.new(:author => @user, :project => @project)
-    if request.post?
-      @issue_template.safe_attributes = params[:issue_template]
-      if @issue_template.save
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => "show", :id => @issue_template.id,
-          :project_id => @project
-      end
+  end
+
+  def create
+    new
+    @issue_template.safe_attributes = params[:issue_template]
+    if @issue_template.save
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to project_issue_template_path(@project, @issue_template)
+    else
+      render 'new'
     end
   end
 
   def edit
-    # Change from request.post to request.patch for Rails4.
-    if request.patch? || request.put?
-      @issue_template.safe_attributes = params[:issue_template]
-      if @issue_template.save
-        flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => "show", :id => @issue_template.id, 
-          :project_id => @project
-      end
+  end
+
+  def update
+    @issue_template.safe_attributes = params[:issue_template]
+    if @issue_template.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to project_issue_template_path(@project, @issue_template)
     end
   end
 
   def destroy
-    if request.post?
-      if @issue_template.destroy
-        flash[:notice] = l(:notice_successful_delete)
-        redirect_to :action => "index", :project_id => @project
-      end
+    if @issue_template.destroy
+      flash[:notice] = l(:notice_successful_delete)
+      redirect_to project_issue_templates_path(@project)
     end
   end
 
   # load template description
   def load
-    if params[:template_type] != nil && params[:template_type]== 'global'
-      @issue_template = GlobalIssueTemplate.find(params[:issue_template])
+    @issue_template = if 'global' == params[:template_type]
+      GlobalIssueTemplate.find(params[:issue_template])
     else
-      @issue_template = IssueTemplate.find(params[:issue_template])
+      IssueTemplate.find(params[:issue_template])
     end
     render :text => @issue_template.to_json(:root => true)
   end
-  
+
   # update pulldown
   def set_pulldown
+    @tracker = Tracker.find(params[:issue_tracker_id])
     @grouped_options = []
     group = []
     @default_template = nil
@@ -166,41 +167,19 @@ class IssueTemplatesController < ApplicationController
     render :partial => 'common/preview'
   end
 
-  # Reorder templates
-  def move
-    move_order(params[:to])
-  end
-    
+
   private
   def find_user
     @user = User.current
   end
-  
-  def find_tracker
-    @tracker = Tracker.find(params[:issue_tracker_id])
-  end
 
   def find_object
     @issue_template = IssueTemplate.find(params[:id])
-    @project = @issue_template.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
-  def find_project
-    begin
-      @project = Project.find(params[:project_id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
-    end
   end
 
-  def move_order(method)
-    IssueTemplate.find(params[:id]).send "move_#{method}"
-    respond_to do |format|
-      format.html { redirect_to :action => 'index' }
-      format.xml  { head :ok }
-    end
+  def find_project
+    @project = Project.find(params[:project_id])
   end
+
 end
 
