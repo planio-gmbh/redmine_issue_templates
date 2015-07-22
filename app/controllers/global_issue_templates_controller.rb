@@ -7,9 +7,9 @@ class GlobalIssueTemplatesController < ApplicationController
   include IssuesHelper
   include Concerns::TemplateRenderAction
   menu_item :issues
+  before_filter :require_admin
   before_filter :find_object, only: [:show, :edit, :destroy]
   before_filter :find_project, only: [:edit]
-  before_filter :require_admin, only: [:index, :new, :show], excep: [:preview]
 
   #
   # Action for global template : Admin right is required.

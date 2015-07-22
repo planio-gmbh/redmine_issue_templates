@@ -5,7 +5,7 @@ en:
   issue_template_note: Note
   label_enabled: Enable
   label_disabled: Disable
-  label_help_message: About templates
+  label_help_message: Templates help message
   label_show_help_message: Show help message when creating/updating issues. 
   about_help_message: Each project can have custom help messages for templates.
   close_help: Close help message.
@@ -43,7 +43,7 @@ en:
   label_should_replaced_help_message: "If true, existing subject and description are cleared and replaced with template text.（Default is false, and appended text.)"
   global_issue_templates: "Global Issue Templates"
   no_issue_templates_for_this_redmine: "No global issue templates are defined."
-  only_admin_can_associate_global_template: "Only Redmine administrator can associate global templates with this project."
+  only_admin_can_associate_global_template: "Only administrator can associate global templates with this project."
   text_no_tracker_enabled_for_global: "Trackers are not defined yet.\nPlease set them first because templates are assigned to trackers."
   display_and_filter_issue_templates_in_dialog: "Preview Template Contents"
   label_filter_template: "Filter templates"
