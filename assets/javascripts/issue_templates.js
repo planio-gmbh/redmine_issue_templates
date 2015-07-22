@@ -8,7 +8,7 @@ function checkExpand(ch) {
     var obj;
     obj = document.all && document.all(ch) || document.getElementById && document.getElementById(ch);
     if (obj && obj.style) obj.style.display =
-        obj.style.display === 'none' ? '' : 'none'
+        obj.style.display === 'none' ? '' : 'none';
 }
 
 function eraseSubjectAndDescription() {

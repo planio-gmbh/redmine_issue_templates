@@ -9,8 +9,6 @@
       <%= simple_format(l(:text_no_tracker_enabled)) %>
     </div>
 <% else %>
-    <div class="box">
-      <%= error_messages_for 'issue_template' %>
       <%= labelled_form_for :issue_template,  @issue_template,
                             url: { controller: 'issue_templates', action: 'new', project_id: project },
                             html: { id: 'issue_template-form', class: nil, multipart: false } do |f| %>
@@ -23,6 +21,5 @@
       <%= preview_link url_for( controller: 'issue_templates', action: 'preview', id: @issue_template ),
                        'issue_template_description', target='preview' %> |
       <%= link_to l(:button_cancel), { action: 'index'}, data: { confirm: l(:text_are_you_sure) } %>
-    </div>
 <% end %>
 
