@@ -10,9 +10,13 @@ en:
   about_help_message: Each project can customize help message for templates.
   close_help: Close help message.
   about_template_help_message: You can see the instruction of issue templates on this project.
-  label_enabled_help_message: Checkbox to activate (enabled) to this template. If you hope to save this template as draft, turn this checkbox off.
+  label_enabled_help_message: Check to activate this template. If you want to save this template as a draft, turn this checkbox off.
   label_list_templates: "Template list"
   label_new_templates: "Add template"
+  modules:
+    issue_templates:
+      description: Eases the creation of new issues with templates.
+
   issue_template_name: "Template name"
   issue_description: "Issue body"
   issue_title: "Issue title"
@@ -38,6 +42,6 @@ en:
   label_should_replaced: "Replace subject and description"
   label_should_replaced_help_message: "If true, existing subject and description are cleared and replaced with template text.（Default is false, and appended text.)"
   global_issue_templates: "Global Issue Templates"
-  no_issue_templates_for_this_redmine: "No global issue templates are defined for this redmine."
+  no_issue_templates_for_this_redmine: "No global issue templates are defined."
   only_admin_can_associate_global_template: "Only Redmine administrator can associate global templates with this project."
   text_no_tracker_enabled_for_global: "Any trackers are not defined yet.\nPlease set them first because templates are assigned to trackers."
