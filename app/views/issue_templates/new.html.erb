@@ -3,7 +3,7 @@
               { controller: 'issue_templates',
                 action: 'index', project_id: project }, class: 'template') %>
 </div>
-<h2 class="template"><%=h "#{l(:issue_templates)} / #{l(:button_add)}" %></h2>
+<h2><%=h "#{l(:issue_templates)} / #{l(:button_add)}" %></h2>
 <% if project.trackers.blank? %>
     <div class="nodata">
       <%= simple_format(l(:text_no_tracker_enabled)) %>

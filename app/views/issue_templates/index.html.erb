@@ -3,7 +3,7 @@
     <%= link_to l(:label_new_templates), { controller: 'issue_templates', action: 'new', project_id: @project }, :class => 'icon icon-add' %>
   </div>
 <% end %>
-<h2><%= l(:issue_template) %></h2>
+<h2><%= l(:issue_templates) %></h2>
 
 <% if @project.trackers.blank? %>
     <div class="nodata">
