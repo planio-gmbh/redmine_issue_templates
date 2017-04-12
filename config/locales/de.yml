@@ -7,7 +7,7 @@ de:
   label_disabled: deaktivieren
   label_help_message: Hilfe
   label_show_help_message: Hilfe-Dialog im Vorlagenformular anzeigen
-  about_help_message: Jedes Projekt kann die Onlinehilfe für ihre Vorlagen definieren.
+  about_help_message: Jedes Projekt kann die Onlinehilfe für seine Vorlagen definieren.
   close_help: Hilfedialog schließen
   about_template_help_message: Dies ist die Onlinehilfe für Aufgabenvorlagen in diesem Projekt.
   label_enabled_help_message: Diese Vorlage aktivieren. Deaktvieren Sie diese Checkbox, um die Vorlage als Entwurf abzulegen.
