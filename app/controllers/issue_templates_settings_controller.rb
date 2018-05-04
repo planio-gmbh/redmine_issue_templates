@@ -1,6 +1,5 @@
-# noinspection RubocopInspection
 class IssueTemplatesSettingsController < ApplicationController
-  before_filter :find_project, :find_user
+  before_filter :find_project_by_project_id
   before_filter :authorize, except: [:show_help, :preview]
 
   def edit
@@ -16,16 +15,6 @@ class IssueTemplatesSettingsController < ApplicationController
   end
 
   private
-
-  def find_user
-    @user = User.current
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 
   def update_template_setting
     issue_templates_setting = IssueTemplateSetting.find_or_create(@project.id)
