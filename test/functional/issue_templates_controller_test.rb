@@ -209,13 +209,13 @@ class IssueTemplatesControllerTest < ActionController::TestCase
       get :index, project_id: 1
       assert_response :success
       assert_template 'index'
-      assert_select 'h2', text: l(:issue_template).to_s, count: 1
+      assert_select 'h2', text: l(:issue_templates).to_s, count: 1
       assert !@response.body.match(%r{<h3>#{l(:label_inherited_templates)}</h3>})
 
       get :index, project_id: 3
       assert_response :success
       assert_template 'index'
-      assert_select 'h2', text: l(:issue_template).to_s, count: 1
+      assert_select 'h2', text: l(:issue_templates).to_s, count: 1
       assert !@response.body.match(%r{<h3>#{l(:label_inherited_templates)}</h3>})
     end
 
@@ -227,7 +227,7 @@ class IssueTemplatesControllerTest < ActionController::TestCase
       get :index, project_id: 3
       assert_response :success
       assert_template 'index'
-      assert_select 'h2', text: l(:issue_template).to_s, count: 1
+      assert_select 'h2', text: l(:issue_templates).to_s, count: 1
     end
 
     should 'render pulldown with parent template' do
