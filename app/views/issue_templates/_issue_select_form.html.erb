@@ -6,6 +6,8 @@
       <option value="">---</option>
     </select>
 
+<%# JS gimmicks disabled for Planio. search in overlay is broken anyway, unclear how that is supposed to work. %>
+<% if false %>
     <a class="icon template_tooltip" id="link_template_dialog">
       <%=h l(:display_and_filter_issue_templates_in_dialog, default: 'Filter Templates') %>
     </a>
@@ -29,6 +31,7 @@
     <span id="original_subject" style="display: none;"></span>
     <span id="original_description" style="display: none;"></span>
     <span id="template_status-area"></span>
+<% end %>
   </p>
 
   <!-- dialog box -->
