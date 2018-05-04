@@ -20,7 +20,6 @@
 
 require 'redmine'
 require 'issue_templates/issues_hook'
-require 'issue_templates/projects_helper_patch'
 
 Redmine::Plugin.register :redmine_issue_templates do
   name 'Redmine Issue Templates plugin'
@@ -40,17 +39,22 @@ Redmine::Plugin.register :redmine_issue_templates do
        caption: :global_issue_templates, html: { class: 'icon icon-global_issue_templates' }
 
   project_module :issue_templates do
-    permission :edit_issue_templates, issue_templates: [:new, :edit, :update, :destroy, :move]
+    permission :edit_issue_templates, {
+      projects: [ :settings ],
+      issue_templates: [ :index, :new, :edit, :update, :destroy, :move ],
+    }, require: :member
     permission :show_issue_templates,
                issue_templates: [:index, :show, :load, :set_pulldown, :list_templates, :orphaned_templates]
-    permission :manage_issue_templates,
-               { issue_templates_settings: [:show, :edit] }, require: :member
+    permission :manage_issue_templates, {
+      projects: [ :settings ],
+      issue_templates_settings: [:show, :edit]
+    }, require: :member
   end
 
-  Rails.configuration.to_prepare do
-    require_dependency 'projects_helper'
-    unless ProjectsHelper.included_modules.include? IssueTemplates::ProjectsHelperPatch
-      ProjectsHelper.send(:include, IssueTemplates::ProjectsHelperPatch)
-    end
+end
+
+Rails.configuration.to_prepare do
+  ProjectsController.class_eval do
+    helper IssueTemplates::ProjectSettingsTabs
   end
 end

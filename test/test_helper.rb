@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
 
 begin
-  require 'shoulda'
+#  require 'shoulda'
 rescue LoadError => ex
   puts <<-"EOS"
   This test should be called only for redmine issue template test.
