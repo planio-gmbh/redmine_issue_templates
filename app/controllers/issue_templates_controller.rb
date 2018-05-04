@@ -6,8 +6,10 @@ class IssueTemplatesController < ApplicationController
   include IssuesHelper
   include Concerns::IssueTemplatesCommon
   menu_item :issues
+
+  before_filter :find_project_by_project_id, :authorize, except: :preview
+
   before_filter :find_object, only: [:show, :edit, :update, :destroy]
-  before_filter :find_user, :find_project, :authorize, except: [:preview]
   before_filter :find_tracker, :find_templates, only: [:set_pulldown, :list_templates]
   accept_api_auth :index, :list_templates, :load
 
@@ -49,7 +51,8 @@ class IssueTemplatesController < ApplicationController
       @issue_template.title = @issue_template.copy_title
     else
       # create empty instance
-      @issue_template ||= IssueTemplate.new(author: @user, project: @project)
+      @issue_template ||= IssueTemplate.new(author: User.current,
+                                            project: @project)
     end
 
     if request.post?
@@ -160,23 +163,12 @@ class IssueTemplatesController < ApplicationController
 
   private
 
-  def find_user
-    @user = User.current
-  end
-
   def find_tracker
     @tracker = Tracker.find(params[:issue_tracker_id])
   end
 
   def find_object
-    @issue_template = IssueTemplate.find(params[:id])
-    @project = @issue_template.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
+    @issue_template = IssueTemplate.where(project_id: @project.id).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
