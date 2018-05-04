@@ -5,7 +5,6 @@ module IssueTemplates
         if User.current.allowed_to?(:manage_issue_templates, @project) ||
           User.current.allowed_to?(:edit_issue_templates, @project)
 
-          @issue_templates_setting = IssueTemplateSetting.find_or_create(@project.id)
           tabs << {
             name: 'issue_templates',
             partial: 'issue_templates_settings/show',
