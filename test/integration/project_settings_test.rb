@@ -37,8 +37,7 @@ class ProjectSettingsTest < Redmine::IntegrationTest
 
     setting = IssueTemplateSetting.find_or_create @project.id
 
-    patch '/projects/ecookbook/issue_templates_settings/edit',
-      setting_id: setting.id,
+    patch '/projects/ecookbook/issue_templates_settings',
       settings: {
         inherit_templates: '1',
         help_message: 'help message here'
@@ -58,7 +57,7 @@ class ProjectSettingsTest < Redmine::IntegrationTest
     @project.enabled_modules.create! name: 'issue_templates'
     r = Role.find 2
     user = User.find 3
-    log_user('jsmith', 'jsmith')
+    log_user('dlopper', 'foo')
 
     setting = IssueTemplateSetting.find_or_create @project.id
 
@@ -66,13 +65,41 @@ class ProjectSettingsTest < Redmine::IntegrationTest
     assert_response :success
     assert_select '#content ul li a.selected', text: 'Issue templates', count: 0
 
-    patch '/projects/ecookbook/issue_templates_settings/edit',
-      setting_id: setting.id,
+    patch '/projects/ecookbook/issue_templates_settings',
       settings: {
         inherit_templates: '1',
         help_message: 'help message here'
       }
     assert_response 403
+
+    r.add_permission! :edit_issue_templates
+    assert user.allowed_to? :edit_issue_templates, @project
+    get '/projects/ecookbook/settings/issue_templates'
+    assert_response :success
+    assert_select '#content ul li a.selected', text: 'Issue templates'
+    assert_select 'h3', text: 'Issue templates list / edit templates'
+    assert_select 'h3', text: 'Optional settings', count: 0
+
+    r.add_permission! :manage_issue_templates
+    user = User.find 3
+    assert user.allowed_to? :manage_issue_templates, @project
+    get '/projects/ecookbook/settings/issue_templates'
+    assert_response :success
+    assert_select '#content ul li a.selected', text: 'Issue templates'
+    assert_select 'h3', text: 'Issue templates list / edit templates'
+    assert_select 'h3', text: 'Optional settings'
+
+
+    patch '/projects/ecookbook/issue_templates_settings',
+      settings: {
+        inherit_templates: '0',
+        help_message: 'help'
+      }
+    assert_redirected_to '/projects/ecookbook/settings/issue_templates'
+
+    setting.reload
+    refute setting.inherit_templates?
+    assert_equal 'help', setting.help_message
   end
 
 end

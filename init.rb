@@ -47,7 +47,7 @@ Redmine::Plugin.register :redmine_issue_templates do
                issue_templates: [:index, :show, :load, :set_pulldown, :list_templates, :orphaned_templates]
     permission :manage_issue_templates, {
       projects: [ :settings ],
-      issue_templates_settings: [:show, :edit]
+      issue_templates_settings: [:update]
     }, require: :member
   end
 

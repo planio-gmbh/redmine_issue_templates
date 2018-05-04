@@ -1,11 +1,14 @@
 class IssueTemplatesSettingsController < ApplicationController
-  before_filter :find_project_by_project_id
-  before_filter :authorize, except: [:show_help, :preview]
+  before_filter :find_project_by_project_id, except: :preview
+  before_filter :authorize, except: :preview
 
-  def edit
-    return if params[:settings].blank?
-    update_template_setting
-    flash[:notice] = l(:notice_successful_update)
+  def update
+    if params[:settings]
+      issue_templates_setting = IssueTemplateSetting.find_or_create(@project.id)
+      issue_templates_setting.safe_attributes = params[:settings]
+      issue_templates_setting.save
+      flash[:notice] = l(:notice_successful_update)
+    end
     redirect_to controller: 'projects', action: 'settings', id: @project, tab: 'issue_templates'
   end
 
@@ -14,14 +17,4 @@ class IssueTemplatesSettingsController < ApplicationController
     render partial: 'common/preview'
   end
 
-  private
-
-  def update_template_setting
-    issue_templates_setting = IssueTemplateSetting.find_or_create(@project.id)
-    attribute = params[:settings]
-    issue_templates_setting.update_attributes(enabled: attribute[:enabled],
-                                              help_message: attribute[:help_message],
-                                              inherit_templates: attribute[:inherit_templates],
-                                              should_replaced: attribute[:should_replaced])
-  end
 end
