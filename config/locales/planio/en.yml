@@ -1,0 +1,4 @@
+en:
+  admin_sections:
+    redmine_issue_templates:
+      description: Define issue templates to be used in all projects.
