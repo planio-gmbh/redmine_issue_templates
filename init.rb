@@ -28,6 +28,7 @@ Redmine::Plugin.register :redmine_issue_templates do
   version '0.2.2-dev'
   author_url 'http://twitter.com/akiko_pusu'
   requires_redmine version: '3'
+  hidden true if respond_to? :hidden
   url 'https://github.com/akiko-pusu/redmine_issue_templates'
 
   settings partial: 'settings/redmine_issue_templates',
