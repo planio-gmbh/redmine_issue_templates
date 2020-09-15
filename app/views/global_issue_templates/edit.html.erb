@@ -1,0 +1,8 @@
+<%= title [l(:global_issue_templates), global_issue_templates_path], @template.title %>
+
+<%= labelled_form_for :template, @template,
+                      url: global_issue_template_path(@template),
+                      html: { id: 'global_issue_template-form' } do |f| %>
+  <%= render 'issue_templates/form', { f: f, global: true } %>
+<% end %>
+

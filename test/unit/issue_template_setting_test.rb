@@ -20,7 +20,7 @@ class IssueTemplateSettingTest < ActiveSupport::TestCase
   def test_duplicate_project_setting
     templ = IssueTemplateSetting.find_or_create(3)
     templ.attributes = { enabled: true, help_message: 'Help!' }
-    assert templ.save!, 'Failed to save.'
+    assert templ.save, 'Failed to save.'
 
     # test which has the same proect id
     templ2 = IssueTemplateSetting.new
@@ -40,4 +40,15 @@ class IssueTemplateSettingTest < ActiveSupport::TestCase
     issue_template_setting = IssueTemplateSetting.find_or_create(6)
     assert_kind_of IssueTemplateSetting, issue_template_setting
   end
+
+  test "should not create for invalid project id" do
+    t = IssueTemplateSetting.new project_id: 100
+    refute t.valid?
+    assert t.errors[:project_id]
+
+    t = IssueTemplateSetting.new project_id: nil
+    refute t.valid?
+    assert t.errors[:project_id]
+  end
+
 end

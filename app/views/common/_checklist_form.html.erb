@@ -1,0 +1,64 @@
+<p id="checklist_form">
+  <label>Checklist</label>
+  <input type="text" id="checklist_text" class="edit-box">
+  <span class="icon icon-add checklist-new-only save-new-by-button" onclick="addCheckList();"></span>
+</p>
+  <ul class='checklist' style='padding-left: 180px;'>
+    <% @template.checklist.each_with_index do |content, i| %>
+      <li id="checklist_<%= i %>">
+        <span class="text">
+          <%= content %>
+          <a class="icon icon-del" href="javascript:void(0)" onclick="removeCheckList(this);"></a>
+        </span>
+        <input type="hidden" name="template[checklists][]"
+                             id="template_checklist" value="<%= content %>">
+      </li>
+    <% end %>
+  </ul>
+
+<script type="text/javascript">
+    var checklist = $('.checklist');
+
+    function removeCheckList(obj) {
+        var target = obj.closest('li')
+        target.remove();
+    }
+
+    function addCheckList() {
+        var text = $('#checklist_text').val();
+        if (text == '') return false;
+
+        $('.checklist-item').each(function (i, elem) {
+            e = $(elem)
+            if ((text == e.val())) {
+                return;
+            }
+        })
+        addCheckListItem(text);
+        $('#checklist_text').val('');
+    }
+
+    function addCheckListItem(value) {
+        var li = $('<li>');
+        var text = $('<span class="text">').text(value);
+        var hidden = $("<input>", {
+            type: 'hidden',
+            id: 'template_checklist',
+            name: 'template[checklists][]',
+            class: 'checklist-item',
+            value: value
+        }).appendTo(li);
+
+        var remove_link = $("<a>", {
+            class: 'icon icon-del',
+        });
+
+        text.append(remove_link);
+        li.append(text);
+        checklist.append(li);
+
+        $('body').on('click', '.icon.icon-del', function () {
+            removeCheckList(this);
+        });
+    }
+</script>

@@ -1,9 +1,7 @@
 <div id="issue_templates_settings">
-<%= render partial: "common/nodata", locals: { trackers: @project.trackers } %>
 
 <% if User.current.allowed_to? :edit_issue_templates, @project %>
-
-  <h3><%= l(:link_to_index_edit_template) %></h3>
+  <h3><%= l(:issue_templates) %></h3>
   <div class="box">
     <%= link_to(l(:label_list_templates),
                 { controller: 'issue_templates',
@@ -12,14 +10,16 @@
     <% if authorize_for('issue_templates', 'new') %>
       |
       <%= link_to(l(:label_new_templates),
-                  new_issue_template_path(@project),
+                  new_project_issue_template_path(@project),
                   class: 'icon icon-add') %>
     <% end %>
   </div>
 <% end %>
 
 <% if User.current.allowed_to? :manage_issue_templates, @project %>
-  <h3>Optional settings</h3>
+  <br />
+  <br />
+  <h3><%= l :label_settings %></h3>
     <p><%= l(:about_help_message) %></p>
     <%= labelled_form_for :settings,
           IssueTemplateSetting.find_or_create(@project.id),
@@ -29,41 +29,23 @@
         <div class="box tabular">
 
           <p><%= f.check_box :inherit_templates, label: l(:label_inherit_templates) %>
-            <a class="icon icon-help template-help" title="<%= l(:help_for_this_field) %>"
-               data-template-help-target="#inherit_templates_help_content">
-              <%= l(:help_for_this_field) %>
-            </a>
-            <br/>
-            <span id="inherit_templates_help_content" class="issue_template help_content" style="display: none;">
-              <%= l(:label_inherit_templates_help_message) %>
-            </span>
+            <em class="info"><%= l(:label_inherit_templates_help_message) %></em>
           </p>
 
-          <p>
-            <%= f.check_box :should_replaced, label: l(:label_should_replaced) %>
-            <a class="icon icon-help template-help" title="<%= l(:help_for_this_field) %>"
-               data-template-help-target="#should_replaced_help_content">
-              <%= l(:help_for_this_field) %>
-            </a>
-            <br/>
-            <span id="should_replaced_help_content" class="issue_template help_content" style="display: none;">
-              <%= l(:label_should_replaced_help_message) %>
-            </span>
+          <p><%= f.check_box :should_replaced, label: l(:label_should_replaced) %>
+            <em class="info"><%= l(:label_should_replaced_help_message) %></em>
           </p>
 
-          <p><%= f.check_box :enabled, label: l(:label_show_help_message) %></p>
           <p>
             <%= f.text_area :help_message, size: '50x5', class: 'wiki-edit', label: l(:label_help_message) %>
           </p>
           <%= wikitoolbar_for 'settings_help_message' %>
-          <%= preview_link url_for( controller: 'issue_templates_settings', action: 'preview',
-                                    project_id: @project),
-                             'settings_help_message', 'template_help_preview' %>
-          <div id="template_help_preview" class="wiki"></div>
-
         </div>
 
         <%= submit_tag l(:button_save) %>
+          <%= preview_link issue_template_previews_path,
+                             'settings_help_message', 'template_help_preview' %>
+          <div id="template_help_preview" class="wiki"></div>
     <% end %>
   <% end %>
 </div>

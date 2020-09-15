@@ -1,3 +1,19 @@
+.box.tabular.issue-templates label {
+  width: 170px;
+  margin-left: -176px;
+}
+.box.tabular.issue-templates p {
+  padding-left: 176px;
+}
+
+.ui-dialog.modal .ui-button-text {
+  font-size: 16px !important;
+}
+
+#admin-menu a.redmine-issue-templates {
+  background-image: none !important;
+  margin-left: 1.3em;
+}
 .template {
     background: url("../images/issue_templates.png") no-repeat 3px center;
     padding-top: 3px;

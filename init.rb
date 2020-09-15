@@ -19,7 +19,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 require 'redmine'
-require 'issue_templates/issues_hook'
 
 Redmine::Plugin.register :redmine_issue_templates do
   name 'Redmine Issue Templates plugin'
@@ -37,15 +36,16 @@ Redmine::Plugin.register :redmine_issue_templates do
            }
 
   menu :admin_menu, :redmine_issue_templates, { controller: 'global_issue_templates', action: 'index' },
-       caption: :global_issue_templates, html: { class: 'icon icon-global_issue_templates' }
+       caption: :global_issue_templates, html: { class: 'icon icon-applications' }
 
   project_module :issue_templates do
     permission :edit_issue_templates, {
       projects: [ :settings ],
-      issue_templates: [ :index, :new, :edit, :update, :destroy, :move ],
+      issue_templates: [ :index, :show, :new, :edit, :update, :create, :destroy ],
     }, require: :member
     permission :show_issue_templates,
-               issue_templates: [:index, :show, :load, :set_pulldown, :list_templates, :orphaned_templates]
+               issue_templates: [:index, :show, :load, :set_pulldown, :list_templates],
+               read: true
     permission :manage_issue_templates, {
       projects: [ :settings ],
       issue_templates_settings: [:update]
@@ -55,7 +55,6 @@ Redmine::Plugin.register :redmine_issue_templates do
 end
 
 Rails.configuration.to_prepare do
-  ProjectsController.class_eval do
-    helper IssueTemplates::ProjectSettingsTabs
-  end
+  IssueTemplates.setup
 end
+

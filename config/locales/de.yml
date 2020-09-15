@@ -16,14 +16,14 @@ de:
   issue_template_name: Vorlagenname
   issue_description: Beschreibung
   issue_title: Thema
-  label_applied_for_issue: "Vorausgefüllte Felder:"
+  label_applied_for_issue: "Vorausgefüllte Felder"
   help_for_issue_title: "Der hier angegebene Text wird als Thema in der neuen Aufgabe übernommen, falls die Vorlage ausgewählt wird."
   help_for_this_field: Hilfe
   permission_manage_issue_templates: Vorlagen verwalten
   permission_edit_issue_templates: Vorlagen ändern
   permission_show_issue_templates: Vorlagen anzeigen
   project_module_issue_templates: Aufgabenvorlagen
-  label_isdefault_help_message: Aktivieren Sie diese Option um die Vorlage als Standard für den Standardtracker zu verwenden.
+  label_isdefault_help_message: Aktivieren Sie diese Option um die Vorlage als Standard für diesen Tracker zu verwenden.
   defaulf_template_loaded: "Die Standardvorlage für den Tracker '%{tracker}' wurde in das Beschreibungsfeld übernommen."
   text_no_tracker_enabled: Bisher wurde keine Konfiguration der Tracker und Aufgabenvorlagen für dieses Projekt vorgenommen.\nBitte konfigurieren Sie diese notwendige Einstellung, um die Funktion zu nutzen.
   label_enabled_sharing: Vererbung mit Projektbaum erlauben.
@@ -53,3 +53,4 @@ de:
   enabled_template_cannot_destroy: "Nur deaktivierte Vorlagen können gelöscht werden! Prüfe ob andere (Unter-)Projekte diese Vorlage verwenden und deaktiviere sie dort."
   orphaned_templates: Verwaiste Vorlagen
   orphaned_template: Verwaiste Vorlage
+  label_template_properties: Template-Eigenschaften

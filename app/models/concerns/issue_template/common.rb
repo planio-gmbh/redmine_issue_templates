@@ -81,10 +81,6 @@ module Concerns
         result.except('checklist_json')
       end
 
-      def template_struct(option = {})
-        Struct.new(:value, :name, :class, :selected).new(id, title, option[:class])
-      end
-
       def log_destroy_action(template)
         logger.info "[Destroy] #{self.class}: #{template.inspect}" if logger && logger.info
       end
@@ -97,6 +93,12 @@ module Concerns
 
       def copy_title
         "copy_of_#{title}"
+      end
+
+      def copy
+        tpl = self.dup
+        tpl.title = copy_title
+        tpl
       end
 
       private

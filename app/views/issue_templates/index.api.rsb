@@ -16,7 +16,7 @@ api.array :global_issue_templates do
   end
 end
 api.array :inherit_templates do
-  @inherit_templates.each do |template|
+  @inherited_templates.each do |template|
     api.template do
       api.id template.id
       api.tracker_id template.tracker_id
@@ -36,7 +36,7 @@ api.array :inherit_templates do
   end
 end
 api.array :issue_templates do
-  project_templates.each do |template|
+  @project_templates.each do |template|
     api.template do
       api.id template.id
       api.tracker_id template.tracker_id

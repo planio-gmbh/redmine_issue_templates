@@ -1,0 +1,84 @@
+if (!$('#errorExplanation')[0]) {
+  var issue_subject = $('#issue_subject');
+  var issue_description = $('#issue_description');
+
+  var content_changed = (
+    (issue_subject.data('original-value') &&
+    issue_subject.data('original-value') != issue_subject.val())
+  ) || (
+    issue_description.data('original-value') &&
+    issue_description.data('original-value') != issue_description.val()
+  )
+
+  var template = {
+    description: '<%= j @template.description %>',
+    issue_title: '<%= j @template.issue_title %>',
+    checklist: <%= raw @template.checklist.to_json %>
+  };
+
+  var oldSubj = '';
+  var oldVal = '';
+  <% unless @setting.should_replaced %>
+    if (issue_subject.val() !== '') {
+      oldSubj = issue_subject.val() + ' ';
+    }
+    if (issue_description.val() !== '') {
+      oldVal = issue_description.val() + '\n\n';
+    }
+  <% end %>
+
+  var doReplacement = function(){
+    if (IssueTemplates.trim(oldVal) != IssueTemplates.trim(template.description)) {
+      issue_description.data('original-value', issue_description.val());
+      issue_description.val(oldVal + template.description);
+      <% if @setting.should_replaced %>
+      issue_description.removeData('changed');
+      <% end %>
+    }
+
+    if (oldSubj.trim() != template.issue_title.trim()) {
+      issue_subject.data('original-value', issue_description.val());
+      issue_subject.val(oldSubj + template.issue_title);
+      <% if @setting.should_replaced %>
+      issue_subject.removeData('changed');
+      <% end %>
+    }
+
+    if ($('#checklist_form').length > 0) {
+      IssueTemplates.clearChecklist();
+      for(i = 0; i < template.checklist.length; i++){
+        $('span.checklist-new.checklist-edit-box > input.edit-box').val(template.checklist[i]);
+        $("span.checklist-item.new > span.icon.icon-add.save-new-by-button").click();
+      }
+    }
+  }
+
+  <% if @setting.should_replaced %>
+    if (IssueTemplates.needToConfirmOverwrite()) {
+      $("#issue_template_confirm_to_replace_dialog").dialog({
+        modal: true,
+        resizable: false,
+        dialogClass: "modal",
+        draggable: true,
+        title: '<%= j l :label_confirmation %>',
+        width: 400,
+        buttons: {
+          '<%= j l :general_text_Yes %>' : function () {
+              $(this).dialog("close");
+              doReplacement();
+          },
+          '<%= j l :general_text_No %>': function () {
+              $(this).dialog("close");
+              $('#issue_template').val('');
+            }
+        }
+      });
+    } else {
+      doReplacement();
+    }
+  <% else %>
+
+    doReplacement();
+  <% end %>
+
+}

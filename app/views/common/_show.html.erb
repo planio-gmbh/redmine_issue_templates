@@ -1,0 +1,79 @@
+<p>
+  <%= authoring issue_template.created_on, issue_template.author %>
+  <% if issue_template.created_on != issue_template.updated_on %>
+      (<%= raw l(:label_updated_time, time_tag(issue_template.updated_on)) %>)
+  <% end %>
+</p>
+
+<h3><%= l(:label_applied_for_issue) %></h3>
+<div class="issue">
+  <div class="attributes">
+    <div class="attribute">
+      <div class="label"><%= l(:label_tracker) %></div>
+      <div class="value">
+        <% if issue_template.tracker %>
+          <%= issue_template.tracker.name %>
+          <% if @project and !@project.trackers.include?(issue_template.tracker) %>
+            </p><p><%= l :unused_tracker_at_this_project %>
+          <% end %>
+        <% else %>
+          <%= l :orphaned_template %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="attribute">
+      <div class="label"><%= l(:issue_title) %></div>
+      <div class="value"><%= issue_template.issue_title %></div>
+    </div>
+  </div>
+
+  <div class="description">
+    <p><strong><%= l(:issue_description) %></strong></p>
+    <div class="wiki"><%= textilizable(issue_template.description) %></div>
+  </div>
+
+  <!-- for Checklist -->
+  <% if IssueTemplates.checklist_enabled? and issue_template.checklist.any? %>
+    <div id="checklist_form">
+      <strong>Checklist</strong>
+      <ul class='checklist' style='padding-left: 180px;'>
+      <% issue_template.checklist.each do |content| %>
+          <li>
+            <span class="text"><%= content %></span>
+            <input type="hidden" name="issue_template[checklists][]"
+                   id="issue_template_checklist" value="<%= content %>">
+          </li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
+
+<h3><%= l(:label_template_properties) %></h3>
+<div class="box tabular issue-templates">
+
+  <p><label><%= l(:issue_template_note) %></label>
+    <%= issue_template.note.presence || l(:label_none) %>
+  </p>
+
+  <p><label><%= l(:field_is_default) %></label>
+    <%= checked_image issue_template.is_default? %>
+  </p>
+
+  <p><label><%= l(:field_active) %></label>
+    <%= checked_image issue_template.enabled? %>
+  </p>
+
+  <% if issue_template.respond_to? :enabled_sharing? %>
+  <p><label><%= l(:label_enabled_sharing) %></label>
+    <%= checked_image issue_template.enabled_sharing? %>
+    <%= l(:label_number_of_projects_use_this_template, count: issue_template.used_projects.count,
+            default: "%{count} subprojects use this template.") unless issue_template.used_projects.count.zero? || !issue_template.enabled? %>
+  </p>
+  <% end %>
+
+  </div>
+
+</div>
+

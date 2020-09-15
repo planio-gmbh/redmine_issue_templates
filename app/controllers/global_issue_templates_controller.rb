@@ -1,123 +1,94 @@
-# noinspection RubocopInspection
 class GlobalIssueTemplatesController < ApplicationController
-  layout 'base'
-  helper IssueTemplatesHelper
-  helper IssuesHelper
   include Concerns::IssueTemplatesCommon
-  menu_item :issues
+
+  helper IssueTemplatesHelper
 
   before_filter :require_admin
+  before_filter :find_template, only: [:show, :edit, :update, :destroy]
 
-  before_filter :find_object, only: [:show, :edit, :update, :destroy]
-  before_filter :find_project, only: [:edit, :update]
-
-  #
-  # Action for global template : Admin right is required.
-  #
   def index
-    trackers = Tracker.all
-    template_map = {}
-    trackers.each do |tracker|
-      tracker_id = tracker.id
-      templates = GlobalIssueTemplate.search_by_tracker(tracker_id).sorted
-      template_map[Tracker.find(tracker_id)] = templates if templates.any?
-    end
-    render layout: !request.xhr?, locals: { template_map: template_map, trackers: trackers }
+    @trackers = Tracker.sorted
+    @template_map = Hash[
+      @trackers.map do |t|
+        templates = GlobalIssueTemplate.search_by_tracker(t.id).sorted
+        [t.id, templates] if templates.any?
+      end.compact
+    ]
+    @orphaned = GlobalIssueTemplate.orphaned
   end
 
   def new
-    # create empty instance
-    @global_issue_template = GlobalIssueTemplate.new
+    find_projects_and_trackers
+    @template = GlobalIssueTemplate.new
+  end
 
-    if request.post?
-      # Case post, set attributes passed as parameters.
-      @global_issue_template.safe_attributes = template_params
-      @global_issue_template.author = User.current
-      @global_issue_template.checklist_json = checklists.to_json if checklists
+  def create
+    @template = GlobalIssueTemplate.new
+    @template.safe_attributes = template_params
+    @template.checklist_json = checklists.to_json if checklists
+    @template.author = User.current
 
-      save_and_flash(:notice_successful_create) && return
+    if @template.save
+      redirect_to global_issue_templates_path, notice: l(:notice_successful_create)
+    else
+      find_projects_and_trackers
+      render 'new'
     end
-
-    render_form
   end
 
   def show
-    render_form
-  end
-
-  def update
-    @global_issue_template.safe_attributes = template_params
-    @global_issue_template.checklist_json = checklists.to_json
-    save_and_flash(:notice_successful_update)
   end
 
   def edit
-    # Change from request.post to request.patch for Rails4.
-    return unless request.patch? || request.put?
-    @global_issue_template.safe_attributes = template_params
-    @global_issue_template.checklist_json = checklists.to_json
-    save_and_flash(:notice_successful_update)
+    find_projects_and_trackers
+  end
+
+  def update
+    @template.safe_attributes = template_params
+    @template.checklist_json = checklists.to_json
+    if @template.save
+      respond_to do |format|
+        format.html{
+          redirect_to global_issue_templates_path, notice: l(:notice_successful_update)
+        }
+        format.js { head 200 }
+      end
+    else
+      respond_to do |format|
+        format.html{
+          find_projects_and_trackers
+          render 'edit'
+        }
+        format.js{ head 422 }
+      end
+    end
   end
 
   def destroy
-    return unless request.post?
-    unless @global_issue_template.destroy
+    unless @template.destroy
       flash[:error] = l(:enabled_template_cannot_destroy)
-      redirect_to action: :show, id: @global_issue_template
-      return
+      redirect_to global_issue_template_path(@template)
+    else
+      flash[:notice] = l(:notice_successful_delete)
+      redirect_to global_issue_templates_path
     end
-    flash[:notice] = l(:notice_successful_delete)
-    redirect_to action: 'index'
-  end
-
-  # preview
-  def preview
-    global_issue_template = params[:global_issue_template]
-    id = params[:id]
-    @text = (global_issue_template ? global_issue_template[:description] : nil)
-    @global_issue_template = GlobalIssueTemplate.find(id) if id
-    render partial: 'common/preview'
-  end
-
-  def orphaned_templates
-    orphaned = GlobalIssueTemplate.orphaned
-    render partial: 'orphaned_templates', locals: { orphaned_templates: orphaned }
   end
 
   private
 
-  def find_project
+  def find_projects_and_trackers
     @projects = Project.all
+    @trackers = Tracker.sorted
   end
 
-  def find_object
-    @global_issue_template = GlobalIssueTemplate.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def save_and_flash(message)
-    return unless @global_issue_template.save
-    respond_to do |format|
-      format.html do
-        flash[:notice] = l(message)
-        redirect_to action: 'show', id: @global_issue_template.id
-      end
-      format.js { head 200 }
-    end
+  def find_template
+    @template = GlobalIssueTemplate.find params[:id]
   end
 
   def template_params
-    params.require(:global_issue_template)
+    params.require(:template)
           .permit(:title, :tracker_id, :issue_title, :description, :note, :is_default, :enabled,
                   :author_id, :position, project_ids: [], checklists: [])
   end
 
-  def render_form
-    trackers = Tracker.all
-    projects = Project.all
-    render(layout: !request.xhr?,
-           locals: { checklist_enabled: checklist_enabled?, trackers: trackers, apply_all_projects: apply_all_projects?,
-                     issue_template: @global_issue_template, projects: projects })
-  end
 end

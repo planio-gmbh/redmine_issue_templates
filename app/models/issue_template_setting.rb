@@ -65,7 +65,7 @@ class IssueTemplateSetting < ActiveRecord::Base
   end
 
   def get_inherit_templates(tracker = nil)
-    return [] unless enabled_inherit_templates?
+    return IssueTemplate.none unless enabled_inherit_templates?
 
     project_ids = project.ancestors.collect(&:id)
     tracker = project.trackers.pluck(:tracker_id) if tracker.blank?

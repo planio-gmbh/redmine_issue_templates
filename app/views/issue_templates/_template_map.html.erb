@@ -1,0 +1,5 @@
+<% trackers.each do |tracker| %>
+  <% if (templates = map[tracker.id]).present? %>
+    <%= render partial: 'list', locals: { tracker: tracker, templates: templates } %>
+  <% end %>
+<% end %>

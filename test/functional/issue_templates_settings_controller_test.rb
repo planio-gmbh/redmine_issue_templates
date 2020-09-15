@@ -43,11 +43,4 @@ class IssueTemplatesSettingsControllerTest < ActionController::TestCase
                          action: 'settings', id: @project, tab: 'issue_templates'
   end
 
-  test 'should preview template setting' do
-    post :preview, settings: { help_message: 'h1. Preview test.',
-                               enabled: '1' },
-                   project_id: @project
-    assert_template 'common/_preview'
-    assert_select 'h1', /Preview test\./, @response.body.to_s
-  end
 end

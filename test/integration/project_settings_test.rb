@@ -77,8 +77,8 @@ class ProjectSettingsTest < Redmine::IntegrationTest
     get '/projects/ecookbook/settings/issue_templates'
     assert_response :success
     assert_select '#content ul li a.selected', text: 'Issue templates'
-    assert_select 'h3', text: 'Issue templates list / edit templates'
-    assert_select 'h3', text: 'Optional settings', count: 0
+    assert_select 'h3', text: 'Issue templates'
+    assert_select 'h3', text: 'Settings', count: 0
 
     r.add_permission! :manage_issue_templates
     user = User.find 3
@@ -86,8 +86,8 @@ class ProjectSettingsTest < Redmine::IntegrationTest
     get '/projects/ecookbook/settings/issue_templates'
     assert_response :success
     assert_select '#content ul li a.selected', text: 'Issue templates'
-    assert_select 'h3', text: 'Issue templates list / edit templates'
-    assert_select 'h3', text: 'Optional settings'
+    assert_select 'h3', text: 'Issue templates'
+    assert_select 'h3', text: 'Settings'
 
 
     patch '/projects/ecookbook/issue_templates_settings',

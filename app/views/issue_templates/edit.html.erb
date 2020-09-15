@@ -1,0 +1,9 @@
+<%= title [l(:issue_templates), project_issue_templates_path(@project)], @template.title %>
+
+<%= labelled_form_for :template, @template,
+                      url: project_issue_template_path(@project, @template),
+                      html: { id: 'issue_template-form' } do |f| %>
+  <%= render 'issue_templates/form', { f: f } %>
+<% end %>
+
+

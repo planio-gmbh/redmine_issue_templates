@@ -41,4 +41,17 @@ class IssueTemplateTest < ActiveSupport::TestCase
       assert !template.is_default?
     end
   end
+
+  test "should not destroy enabled template" do
+    t = IssueTemplate.first
+    t.update_column :enabled, true
+    assert_no_difference ->{IssueTemplate.count} do
+      t.destroy
+    end
+
+    t.update_column :enabled, false
+    assert_difference ->{IssueTemplate.count}, -1 do
+      t.destroy
+    end
+  end
 end
