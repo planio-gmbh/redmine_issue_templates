@@ -1,5 +1,20 @@
 # Redmine Issue Templates Plugin
 
+## About this fork
+
+This fork of the [original Issue Templates Plugin for
+Redmine](https://github.com/akiko-pusu/redmine_issue_templates) is maintained
+by [Planio](https://plan.io/redmine-hosting). Relevant branches are named
+`planio/<REDMINE-VERSION>`.
+
+This fork focuses on usability, maintainability and adherence to the standard
+Redmine look and feel, even at the cost of dropping features. The current
+`planio/3.4` branch is based on the `v0.2.x-support-Redmine3` upstream branch.
+
+
+
+**original README follows**
+
 [![Plugin info at redmine.org](https://img.shields.io/badge/Redmine-plugin-green.svg?)](http://www.redmine.org/plugins/redmine_issue_templates)
 [![CircleCI](https://circleci.com/gh/akiko-pusu/redmine_issue_templates/tree/master.svg?style=shield)](https://circleci.com/gh/akiko-pusu/redmine_issue_templates/tree/master)
 [![Sider](https://img.shields.io/badge/Special%20Thanks!-Sider-blue.svg?)](https://sider.review/features)
