@@ -1,0 +1,29 @@
+sudo: false
+language: ruby
+rvm:
+  - 2.4.9
+
+branches:
+  only:
+    - planio/3.4
+
+addons:
+  postgresql: "9.4"
+
+env:
+  - REDMINE_VER=3.4-stable
+
+install: "echo skip bundle install"
+
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+
+script:
+  - export TESTSPACE=`pwd`/testspace
+  - export NAME_OF_PLUGIN=redmine_issue_templates
+  - export PATH_TO_PLUGIN=`pwd`
+  - export PATH_TO_REDMINE=$TESTSPACE/redmine
+  - mkdir $TESTSPACE
+  - cp test/support/* $TESTSPACE/
+  - bash -x ./travis.sh
+
