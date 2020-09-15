@@ -1,6 +1,6 @@
 # Redmine Issue Templates Plugin
 
-## About this fork
+## About this fork  [![Build Status](https://travis-ci.org/planio-gmbh/redmine_issue_templates.svg?branch=planio/3.4)](https://travis-ci.org/planio-gmbh/redmine_issue_templates)
 
 This fork of the [original Issue Templates Plugin for
 Redmine](https://github.com/akiko-pusu/redmine_issue_templates) is maintained
