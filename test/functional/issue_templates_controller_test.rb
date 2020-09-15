@@ -1,4 +1,4 @@
-require File.expand_path('../test_helper', __dir__)
+require File.expand_path('../../test_helper', __FILE__)
 
 class IssueTemplatesControllerTest < Redmine::ControllerTest
   fixtures :projects, :users, :roles, :trackers, :members, :member_roles, :enabled_modules,
