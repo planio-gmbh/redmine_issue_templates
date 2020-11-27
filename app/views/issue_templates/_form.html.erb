@@ -4,7 +4,6 @@
   <div>
     <p><%= f.text_field :title, required: true, size: 80, label: l(:issue_template_name) %></p>
   </div>
-  </div>
 
   <h3><%= l(:label_applied_for_issue) %></h3>
 <div class="box tabular issue-templates">
@@ -46,16 +45,7 @@
   </p>
   </div>
 
-
-<%= wikitoolbar_for 'template_description' %>
+  <%= wikitoolbar_for 'template_description' %>
 
 </div>
 
-<% if defined?(global) and !!global %>
-  <%= render partial: 'global_issue_templates/projects_form' %>
-<% end %>
-
-<%= submit_tag l(@template.new_record? ? :button_create : :button_save) %>
-<%= preview_link issue_template_previews_path, 'template_description', 'preview' %>
-
-<div id="preview" class="wiki"></div>

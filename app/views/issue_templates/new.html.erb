@@ -5,7 +5,11 @@
   <%= labelled_form_for :template, @template, url: project_issue_templates_url(@project),
                         html: { id: 'issue_template-form' } do |f| %>
 
-    <%= render 'form', { f: f } %>
+    <%= render 'issue_templates/form', { f: f } %>
+    <%= submit_tag l :button_create %>
+    <%= preview_link issue_template_previews_path, 'template_description', 'preview' %>
+
+    <div id="preview" class="wiki"></div>
   <% end %>
 
 <% else %>

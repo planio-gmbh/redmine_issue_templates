@@ -4,6 +4,12 @@
                       url: global_issue_templates_path,
                       html: { id: 'global_issue_template-form' } do |f| %>
   <%= render 'issue_templates/form', { f: f, global: true } %>
+  <%= render partial: 'global_issue_templates/projects_form' %>
+
+  <%= submit_tag l :button_create) %>
+
+  <%= preview_link issue_template_previews_path, 'template_description', 'preview' %>
+  <div id="preview" class="wiki"></div>
 <% end %>
 
 

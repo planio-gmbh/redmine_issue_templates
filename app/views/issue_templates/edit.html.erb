@@ -4,6 +4,10 @@
                       url: project_issue_template_path(@project, @template),
                       html: { id: 'issue_template-form' } do |f| %>
   <%= render 'issue_templates/form', { f: f } %>
+  <%= submit_tag l :button_save %>
+  <%= preview_link issue_template_previews_path, 'template_description', 'preview' %>
+
+  <div id="preview" class="wiki"></div>
 <% end %>
 
 
