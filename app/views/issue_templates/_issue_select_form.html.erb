@@ -23,7 +23,7 @@
 
 <%= javascript_tag do %>
 $(function() {
-  IssueTemplates.load_url = '<%= j load_project_issue_template_url(project_id, "@TPL_ID@") %>';
+  IssueTemplates.load_url = '<%= j load_project_issue_template_url(project_id, "@TPL_ID@", tracker_id: @issue.tracker_id) %>';
 
   if ($('#issue_template option').length <= 1) {
     return;

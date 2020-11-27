@@ -97,7 +97,9 @@ class IssueTemplatesController < ApplicationController
   def load
     template_type, id = params[:id].to_s.split('-')
     if template_type.present? && id.present?
-      templates = IssueTemplates::ProjectTemplates.new(project_id: @project.id)
+      templates = IssueTemplates::ProjectTemplates.new(
+        project_id: @project.id, tracker_id: params[:tracker_id].presence
+      )
       @setting = templates.setting
       @template = case template_type
         when 'global'

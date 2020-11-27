@@ -38,4 +38,14 @@ class ProjectTemplatesTest < ActiveSupport::TestCase
     assert orphaned = pt.orphaned
     assert_equal [2, 3], orphaned.map(&:id)
   end
+
+  test "should find global template for project with global_all_projects" do
+    with_settings("plugin_redmine_issue_templates" => {'apply_global_template_to_all_projects' => true }) do
+      Project.find(1).update_attribute :tracker_ids, [1]
+      IssueTemplate.where(tracker_id: 1, project_id: 1).update_all enabled: false
+      pt = ProjectTemplates.new project_id: 1, tracker_id: 1
+      assert globals = pt.global_templates
+      assert globals.present?
+    end
+  end
 end
