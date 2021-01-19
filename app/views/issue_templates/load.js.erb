@@ -11,8 +11,8 @@ if (!$('#errorExplanation')[0]) {
   )
 
   var template = {
-    description: '<%= j @template.description %>',
-    issue_title: '<%= j @template.issue_title %>',
+    description: '<%= raw j @template.description %>',
+    issue_title: '<%= raw j @template.issue_title %>',
     checklist: <%= raw @template.checklist.to_json %>
   };
 
