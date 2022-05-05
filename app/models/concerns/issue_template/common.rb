@@ -80,7 +80,7 @@ module Concerns
       def confirm_disabled
         return unless enabled?
         errors.add :base, 'enabled_template_cannot_destroy'
-        false
+        throw :abort
       end
 
       def copy_title

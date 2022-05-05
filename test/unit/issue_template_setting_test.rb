@@ -49,6 +49,9 @@ class IssueTemplateSettingTest < ActiveSupport::TestCase
     t = IssueTemplateSetting.new project_id: nil
     refute t.valid?
     assert t.errors[:project_id]
+
+    t = IssueTemplateSetting.new project_id: 4
+    assert t.valid?, t.errors.full_messages
   end
 
 end

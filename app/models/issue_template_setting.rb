@@ -3,7 +3,7 @@ class IssueTemplateSetting < ActiveRecord::Base
   belongs_to :project
 
   validates_uniqueness_of :project_id
-  validates_presence_of :project_id
+  validates_presence_of :project
 
   safe_attributes 'help_message', 'enabled', 'inherit_templates', 'should_replaced'
 
