@@ -37,11 +37,12 @@ class ProjectSettingsTest < Redmine::IntegrationTest
 
     setting = IssueTemplateSetting.find_or_create @project.id
 
-    patch '/projects/ecookbook/issue_templates_settings',
+    patch '/projects/ecookbook/issue_templates_settings', params: {
       settings: {
         inherit_templates: '1',
         help_message: 'help message here'
       }
+    }
 
     assert_redirected_to '/projects/ecookbook/settings/issue_templates'
     follow_redirect!
@@ -65,11 +66,12 @@ class ProjectSettingsTest < Redmine::IntegrationTest
     assert_response :success
     assert_select '#content ul li a.selected', text: 'Issue templates', count: 0
 
-    patch '/projects/ecookbook/issue_templates_settings',
+    patch '/projects/ecookbook/issue_templates_settings', params: {
       settings: {
         inherit_templates: '1',
         help_message: 'help message here'
       }
+    }
     assert_response 403
 
     r.add_permission! :edit_issue_templates
@@ -90,11 +92,12 @@ class ProjectSettingsTest < Redmine::IntegrationTest
     assert_select 'h3', text: 'Settings'
 
 
-    patch '/projects/ecookbook/issue_templates_settings',
+    patch '/projects/ecookbook/issue_templates_settings', params: {
       settings: {
         inherit_templates: '0',
         help_message: 'help'
       }
+    }
     assert_redirected_to '/projects/ecookbook/settings/issue_templates'
 
     setting.reload
