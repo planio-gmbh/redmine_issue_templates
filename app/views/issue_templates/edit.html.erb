@@ -5,9 +5,6 @@
                       html: { id: 'issue_template-form' } do |f| %>
   <%= render 'issue_templates/form', { f: f } %>
   <%= submit_tag l :button_save %>
-  <%= preview_link issue_template_previews_path, 'template_description', 'preview' %>
-
-  <div id="preview" class="wiki"></div>
 <% end %>
 
 
