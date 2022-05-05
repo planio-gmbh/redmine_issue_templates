@@ -43,10 +43,6 @@ module Concerns
           end
           condition.where.not(tracker_id: ids)
         }
-
-        after_destroy do |template|
-          logger.info("[Destroy] #{self.class}: #{template.inspect}")
-        end
       end
 
       #
@@ -79,10 +75,6 @@ module Concerns
         result = attributes
         result[:checklist] = checklist
         result.except('checklist_json')
-      end
-
-      def log_destroy_action(template)
-        logger.info "[Destroy] #{self.class}: #{template.inspect}" if logger && logger.info
       end
 
       def confirm_disabled
