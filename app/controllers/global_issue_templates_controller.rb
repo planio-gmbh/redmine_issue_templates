@@ -3,8 +3,8 @@ class GlobalIssueTemplatesController < ApplicationController
 
   helper IssueTemplatesHelper
 
-  before_filter :require_admin
-  before_filter :find_template, only: [:show, :edit, :update, :destroy]
+  before_action :require_admin
+  before_action :find_template, only: [:show, :edit, :update, :destroy]
 
   def index
     @trackers = Tracker.sorted

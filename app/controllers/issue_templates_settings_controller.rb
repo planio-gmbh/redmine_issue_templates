@@ -1,6 +1,6 @@
 class IssueTemplatesSettingsController < ApplicationController
-  before_filter :find_project_by_project_id, except: :preview
-  before_filter :authorize, except: :preview
+  before_action :find_project_by_project_id, except: :preview
+  before_action :authorize, except: :preview
 
   def update
     if params[:settings]
