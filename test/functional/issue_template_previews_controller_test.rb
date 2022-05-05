@@ -8,20 +8,20 @@ class IssueTemplatePreviewsControllerTest < ActionController::TestCase
   end
 
   test "should render template preview" do
-    post :create, template: { description: '**bar**'}
+    post :create, params: { template: { description: '**bar**'} }
     assert_response :success
-    assert_select 'fieldset.preview p b', 'bar'
+    assert_select 'p b', 'bar'
   end
 
   test "should render help preview" do
-    post :create, settings: { help_message: '**bar**'}
+    post :create, params: { settings: { help_message: '**bar**'} }
     assert_response :success
-    assert_select 'fieldset.preview p b', 'bar'
+    assert_select 'p b', 'bar'
   end
 
   test "should render nothing preview" do
     post :create
     assert_response :success
-    assert_select 'fieldset.preview'
+    assert_select 'p.empty-preview'
   end
 end
