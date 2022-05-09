@@ -11,6 +11,7 @@ This fork focuses on usability, maintainability and adherence to the standard
 Redmine look and feel, even at the cost of dropping features. The current
 `planio/3.4` branch is based on the `v0.2.x-support-Redmine3` upstream branch.
 
+Note that the original repository has since been archived, the most recent upstream version can now be found at https://github.com/agileware-jp/redmine_issue_templates .
 
 
 **original README follows**
