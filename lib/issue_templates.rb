@@ -8,7 +8,6 @@ module IssueTemplates
   end
 
   def self.template_select_options(project, issue)
-
     got_default = false
     options = all_templates.map do |tpl|
       arr = [ "#{GlobalIssueTemplate === tpl ? "global-" : "project-"}-#{tpl.id}", tpl.title, (!got_default && tpl.is_default) ]
