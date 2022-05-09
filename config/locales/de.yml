@@ -45,10 +45,13 @@ de:
   label_filter_template: Vorlagen filtern
   label_msg_confirm_to_replace: "Soll das aktuelle Thema und die Beschreibung durch die Vorlage ersetzt werden?"
   label_apply_global_template_to_all_projects: "Wende Globale Aufgabenvorlagen auf alle Projekte an."
-  note_apply_global_template_to_all_projects_setting_enabled: "Diese Globale Aufgabenvorlage wird auf alle Projekte angewendet weil das Vorlagen-Plugin entsprechend konfiguriert ist."
+  note_project_local_template_override_global_template: "Projekt-spezifische Vorlagen haben Vorrang und werden beim Erstellen von Aufgaben anstelle etwaiger globaler Vorlagen angezeigt."
+  help_project_local_template_override_global_template: "Wenn aktiv, sind alle globalen Vorlagen in allen Projekten verfügbar. Projekt-spezifische Vorlagen haben Vorrang und werden beim Erstellen von Aufgaben anstelle etwaiger globalen Vorlagen angezeigt."
+  note_apply_global_template_to_all_projects_setting_enabled: "Globale Aufgabenvorlagen sind in allen Projekten verfügbar."
+  note_apply_global_template_to_all_projects_setting_enabled_admin: 'Dies kann unter "Administration -> Globale Aufgabenvorlagen" konfiguriert werden.'
   project_list_associated_this_template: "Projekte:  (angewendet auf: %{applied} von %{all})"
   revert_before_applying_template: "Rückgängig"
-  template_remove_confirm: "Möchten Sie dieses Template wirklich löschen? %{count} Unterprojekte nutzen diese Vorlage."
+  template_remove_confirm: "Möchten Sie diese Vorlage wirklich löschen? %{count} Unterprojekte nutzen diese Vorlage."
   label_number_of_subprojects_use_this_template: "%{count} Unterprojekte nutzen diese Vorlage."
   enabled_template_cannot_destroy: "Nur deaktivierte Vorlagen können gelöscht werden! Prüfe ob andere (Unter-)Projekte diese Vorlage verwenden und deaktiviere sie dort."
   orphaned_templates: Verwaiste Vorlagen

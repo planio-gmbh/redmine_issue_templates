@@ -28,16 +28,15 @@
 
 <% if @global_templates_map.any? %>
   <h2><%= l :global_issue_templates %></h2>
-  <% if IssueTemplates.apply_all_projects? %>
-      <p>
-        <i class="issue_template icon settings"></i>
-        <span class="issue_template help_content">
-          <%= l(:note_apply_global_template_to_all_projects_setting_enabled) %><br/>
-          <%= l(:note_project_local_template_override_global_template) %>
-        </span>
-      </p>
-  <% end %>
-  <p><%= l :only_admin_can_associate_global_template %></p>
+  <p>
+    <% if IssueTemplates.apply_all_projects? %>
+      <%= l :note_apply_global_template_to_all_projects_setting_enabled %>
+      <%= l :note_apply_global_template_to_all_projects_setting_enabled_admin if User.current.admin? %>
+      <br/><%= l :note_project_local_template_override_global_template %>
+    <% else %>
+      <%= l :only_admin_can_associate_global_template %>
+    <% end %>
+  </p>
 
   <%= render partial: 'template_map', locals: { map: @global_templates_map, trackers: @trackers } %>
 <% end %>
