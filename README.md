@@ -1,6 +1,6 @@
 # Redmine Issue Templates Plugin
 
-## About this fork  ![Build Status](https://github.com/planio-gmbh/redmine_issue_templates/workflows/Test%20with%20Redmine/badge.svg?branch=planio/4.2)
+## About this fork  ![Build Status](https://github.com/planio-gmbh/redmine_issue_templates/workflows/Test%20with%20Redmine/badge.svg?branch=master)
 
 This fork of the [original Issue Templates Plugin for
 Redmine](https://github.com/akiko-pusu/redmine_issue_templates) is maintained
