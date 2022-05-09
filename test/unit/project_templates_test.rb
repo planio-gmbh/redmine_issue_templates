@@ -1,14 +1,17 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
 class ProjectTemplatesTest < ActiveSupport::TestCase
-  fixtures :issue_templates, :projects, :users, :trackers
+  fixtures :projects, :users, :trackers,
+    :issue_templates, :global_issue_templates, :global_issue_templates_projects, :issue_template_settings
 
   ProjectTemplates = IssueTemplates::ProjectTemplates
 
-  setup do
+  teardown do
+    Setting.plugin_redmine_issue_templates = {}
   end
 
   test "should find templates for project and tracker" do
+    refute IssueTemplates.apply_all_projects?
     tfi = ProjectTemplates.new(project_id: 1, tracker_id: 1)
     assert templates = tfi.issue_templates
     assert_equal [1, 4], templates.map(&:id)
