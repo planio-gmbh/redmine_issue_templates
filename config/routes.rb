@@ -15,5 +15,4 @@ Rails.application.routes.draw do
   end
 
   resources :global_issue_templates
-  resources :issue_template_previews, only: :create
 end
